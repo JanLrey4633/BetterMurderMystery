@@ -64,8 +64,12 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
     private void loadLocations() {
         arenaSpawns.clear();
         coinSpawns.clear();
-        arenaSpawns.addAll(getConfig().getLocationList("arena-spawns"));
-        coinSpawns.addAll(getConfig().getLocationList("coin-spawn-points"));
+        for (Object value : getConfig().getList("arena-spawns", Collections.emptyList())) {
+            if (value instanceof Location location) arenaSpawns.add(location);
+        }
+        for (Object value : getConfig().getList("coin-spawn-points", Collections.emptyList())) {
+            if (value instanceof Location location) coinSpawns.add(location);
+        }
     }
 
     private void saveLocations() {
