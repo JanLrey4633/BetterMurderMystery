@@ -7,7 +7,7 @@ description: Einfaches Murder-Mystery-Minispiel fuer Paper
 commands:
   bmm:
     description: BetterMurderMystery Verwaltung und Spielbefehle
-    usage: /bmm <join|leave|start|stop|setlobby|setspawn|setcoinspawn|clearcoinspawns|setminplayers|reload|info>
+    usage: /bmm <gui|join|leave|start|stop|setlobby|setspawn|setcoinspawn|clearcoinspawns|setminplayers|reload|info>
 permissions:
   bettermurdermystery.admin:
     description: Erlaubt die Administration von BetterMurderMystery
