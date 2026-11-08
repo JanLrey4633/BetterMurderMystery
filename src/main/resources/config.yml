@@ -1,12 +1,23 @@
-# BetterMurderMystery - Grundeinstellungen
+# BetterMurderMystery – zentrale Einstellungen
+# Änderungen an Zahlenwerten können ingame über /bmm gui -> Admin -> Einstellungen
+# oder direkt hier vorgenommen werden. Danach /bmm reload ausführen.
+
+# Mindestanzahl für eine Runde (niemals weniger als 4)
 min-players: 4
+
+# Countdown vor Rundenstart in Sekunden
 countdown-seconds: 10
+
+# Coin-System
 coin-spawn-interval-seconds: 8
 max-coins-on-ground: 12
 coin-spawn-points: []
+
+# Arena und Lobby
 arena-spawns: []
 lobby: null
 
+# Nachrichten
 messages:
   prefix: "&8[&6BetterMurderMystery&8] "
   no-permission: "&cDazu hast du keine Berechtigung."
