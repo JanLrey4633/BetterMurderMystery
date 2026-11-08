@@ -15,19 +15,19 @@ Alle Setup-Befehle als OP oder mit `bettermurdermystery.admin` ausfuehren:
 
 | Befehl | Funktion |
 |---|---|
-| `/bmm setlobby` | Setzt den Warte-Lobby-Spawn |
-| `/bmm setspawn` | Fuegt an deiner Position einen Arena-Spieler-Spawn hinzu |
-| `/bmm setcoinspawn` | Fuegt einen Coin-Spawnpunkt hinzu |
-| `/bmm clearcoinspawns` | Entfernt alle Coin-Spawnpunkte |
-| `/bmm setminplayers 4` | Setzt die Mindestspielerzahl (nie unter 4) |
-| `/bmm info` | Zeigt den Setup- und Rundenstatus |
-| `/bmm reload` | Laedt die Konfiguration neu |
-| `/bmm start` | Startet die Runde manuell |
-| `/bmm stop` | Beendet die Runde |
+| `/mm setlobby` | Setzt den Warte-Lobby-Spawn |
+| `/mm setspawn` | Fuegt an deiner Position einen Arena-Spieler-Spawn hinzu |
+| `/mm setcoinspawn` | Fuegt einen Coin-Spawnpunkt hinzu |
+| `/mm clearcoinspawns` | Entfernt alle Coin-Spawnpunkte |
+| `/mm setminplayers 4` | Setzt die Mindestspielerzahl (nie unter 4) |
+| `/mm info` | Zeigt den Setup- und Rundenstatus |
+| `/mm reload` | Laedt die Konfiguration neu |
+| `/mm start` | Startet die Runde manuell |
+| `/mm stop` | Beendet die Runde |
 
-Spieler öffnen mit `/bmm gui` ein Inventar-Menü zum Beitreten, Verlassen und Anzeigen der Spielinfos. Spieler verwenden alternativ `/bmm join` und `/bmm leave`. Sobald genug Spieler in der Warteschlange sind, startet der Countdown automatisch.
+Spieler öffnen mit `/mm gui` ein Inventar-Menü zum Beitreten, Verlassen und Anzeigen der Spielinfos. Spieler verwenden alternativ `/mm join` und `/mm leave`. Sobald genug Spieler in der Warteschlange sind, startet der Countdown automatisch.
 
-## Inventar-GUIs\n\nMit `/bmm gui` öffnet sich das Hauptmenü. Spieler können dort beitreten, verlassen und Spielinfos ansehen. Admins erhalten zusätzlich ein Admin-Menü mit Start/Stop, Lobby- und Arena-Spawn-Verwaltung, Coin-Spawns, Config-Reload und einem Einstellungsmenü. Im Einstellungsmenü lassen sich Mindestspielerzahl, Countdown, Coin-Intervall und maximale Coin-Anzahl per Links-/Rechtsklick ändern. Änderungen werden direkt in der `config.yml` gespeichert.\n\n## Spielablauf
+## Inventar-GUIs\n\nMit `/mm gui` öffnet sich das Hauptmenü. Spieler können dort beitreten, verlassen und Spielinfos ansehen. Admins erhalten zusätzlich ein Admin-Menü mit Start/Stop, Lobby- und Arena-Spawn-Verwaltung, Coin-Spawns, Config-Reload und einem Einstellungsmenü. Im Einstellungsmenü lassen sich Mindestspielerzahl, Countdown, Coin-Intervall und maximale Coin-Anzahl per Links-/Rechtsklick ändern. Änderungen werden direkt in der `config.yml` gespeichert.\n\n## Spielablauf
 
 - Pro Runde gibt es genau einen Murderer und einen Sheriff. Alle uebrigen Spieler sind Innocents.
 - Der Murderer erhaelt ein markiertes Eisenschwert.
