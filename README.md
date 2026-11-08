@@ -25,9 +25,9 @@ Alle Setup-Befehle als OP oder mit `bettermurdermystery.admin` ausfuehren:
 | `/bmm start` | Startet die Runde manuell |
 | `/bmm stop` | Beendet die Runde |
 
-Spieler verwenden `/bmm join` und `/bmm leave`. Sobald genug Spieler in der Warteschlange sind, startet der Countdown automatisch.
+Spieler öffnen mit `/bmm gui` ein Inventar-Menü zum Beitreten, Verlassen und Anzeigen der Spielinfos. Spieler verwenden alternativ `/bmm join` und `/bmm leave`. Sobald genug Spieler in der Warteschlange sind, startet der Countdown automatisch.
 
-## Spielablauf
+## Inventar-GUIs\n\nMit `/bmm gui` öffnet sich das Hauptmenü. Spieler können dort beitreten, verlassen und Spielinfos ansehen. Admins erhalten zusätzlich ein Admin-Menü mit Start/Stop, Lobby- und Arena-Spawn-Verwaltung, Coin-Spawns, Config-Reload und einem Einstellungsmenü. Im Einstellungsmenü lassen sich Mindestspielerzahl, Countdown, Coin-Intervall und maximale Coin-Anzahl per Links-/Rechtsklick ändern. Änderungen werden direkt in der `config.yml` gespeichert.\n\n## Spielablauf
 
 - Pro Runde gibt es genau einen Murderer und einen Sheriff. Alle uebrigen Spieler sind Innocents.
 - Der Murderer erhaelt ein markiertes Eisenschwert.
