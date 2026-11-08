@@ -5,9 +5,10 @@ api-version: '1.21'
 author: JanLrey4633
 description: Einfaches Murder-Mystery-Minispiel fuer Paper
 commands:
-  bmm:
+  mm:
+    aliases: [bmm]
     description: BetterMurderMystery Verwaltung und Spielbefehle
-    usage: /bmm <gui|join|leave|start|stop|setlobby|setspawn|setcoinspawn|clearcoinspawns|setminplayers|reload|info>
+    usage: /mm <gui|join|leave|start|stop|setlobby|setspawn|setcoinspawn|clearcoinspawns|setminplayers|reload|info>
 permissions:
   bettermurdermystery.admin:
     description: Erlaubt die Administration von BetterMurderMystery
