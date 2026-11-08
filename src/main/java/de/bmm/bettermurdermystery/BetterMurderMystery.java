@@ -1,6 +1,7 @@
 package de.bmm.bettermurdermystery;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
@@ -376,6 +377,7 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
     private void eliminate(Player player, String message) {
         if (!alive.remove(player.getUniqueId())) return;
         broadcast(message);
+        if (player.isOnline() && player.getHealth() > 0.0) player.setHealth(0.0);
         checkWin();
     }
 
