@@ -45,8 +45,8 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
         coinKey = new NamespacedKey(this, "round_coin");
         knifeKey = new NamespacedKey(this, "murder_knife");
         loadLocations();
-        Objects.requireNonNull(getCommand("bmm")).setExecutor(this);
-        Objects.requireNonNull(getCommand("bmm")).setTabCompleter(this);
+        Objects.requireNonNull(getCommand("mm")).setExecutor(this);
+        Objects.requireNonNull(getCommand("mm")).setTabCompleter(this);
         getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("BetterMurderMystery wurde aktiviert.");
     }
@@ -98,7 +98,7 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            msg(sender, "&eBefehle: &f/bmm join, leave, info");
+            msg(sender, "&eBefehle: &f/mm join, leave, info");
             if (isAdmin(sender)) msg(sender, "&6Admin: &fstart, stop, setlobby, setspawn, setcoinspawn, clearcoinspawns, setminplayers, reload");
             return true;
         }
@@ -168,7 +168,7 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
             }
             case "setminplayers" -> {
                 if (!isAdmin(sender)) return true;
-                if (args.length < 2) { msg(sender, "&cNutze: /bmm setminplayers <4+>"); return true; }
+                if (args.length < 2) { msg(sender, "&cNutze: /mm setminplayers <4+>"); return true; }
                 try {
                     int amount = Integer.parseInt(args[1]);
                     if (amount < 4) { msg(sender, "&cMindestens 4 Spieler sind erforderlich."); return true; }
@@ -188,7 +188,7 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
                         " &7| Warteschlange: &f" + queue.size() + " &7| Arena-Spawns: &f" + arenaSpawns.size() +
                         " &7| Coin-Spawns: &f" + coinSpawns.size());
             }
-            default -> msg(sender, "&cUnbekannter Befehl. Nutze /bmm.");
+            default -> msg(sender, "&cUnbekannter Befehl. Nutze /mm.");
         }
         return true;
     }
@@ -220,8 +220,8 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
         List<Player> players = queue.stream().map(Bukkit::getPlayer).filter(Objects::nonNull).toList();
         queue.clear();
         if (players.size() < minPlayers()) { broadcast("&cNicht genuegend Spieler online."); return; }
-        if (arenaSpawns.isEmpty()) { broadcast("&cKeine Arena-Spawns gesetzt! Admin: /bmm setspawn"); queue.addAll(players.stream().map(Player::getUniqueId).toList()); return; }
-        if (coinSpawns.isEmpty()) broadcast("&eHinweis: Es gibt noch keine Coin-Spawnpunkte. /bmm setcoinspawn");
+        if (arenaSpawns.isEmpty()) { broadcast("&cKeine Arena-Spawns gesetzt! Admin: /mm setspawn"); queue.addAll(players.stream().map(Player::getUniqueId).toList()); return; }
+        if (coinSpawns.isEmpty()) broadcast("&eHinweis: Es gibt noch keine Coin-Spawnpunkte. /mm setcoinspawn");
         running = true;
         participants.clear(); alive.clear(); roles.clear(); coins.clear();
         participants.addAll(players.stream().map(Player::getUniqueId).toList());
@@ -532,21 +532,21 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
         if (e.getClickedInventory() != e.getView().getTopInventory()) return;
         int slot = e.getRawSlot();
         if (holder.page.equals("main")) {
-            if (slot == 10) p.performCommand("bmm join");
-            if (slot == 12) p.performCommand("bmm leave");
-            if (slot == 14) p.performCommand("bmm info");
+            if (slot == 10) p.performCommand("mm join");
+            if (slot == 12) p.performCommand("mm leave");
+            if (slot == 14) p.performCommand("mm info");
             if (slot == 16 && p.hasPermission("bettermurdermystery.admin")) openGui(p, "admin");
         } else if (holder.page.equals("admin")) {
             if (!p.hasPermission("bettermurdermystery.admin")) { p.closeInventory(); return; }
             switch (slot) {
-                case 10 -> p.performCommand("bmm start");
-                case 11 -> p.performCommand("bmm stop");
-                case 13 -> p.performCommand("bmm setlobby");
-                case 14 -> p.performCommand("bmm setspawn");
-                case 15 -> p.performCommand("bmm setcoinspawn");
-                case 16 -> p.performCommand("bmm clearcoinspawns");
+                case 10 -> p.performCommand("mm start");
+                case 11 -> p.performCommand("mm stop");
+                case 13 -> p.performCommand("mm setlobby");
+                case 14 -> p.performCommand("mm setspawn");
+                case 15 -> p.performCommand("mm setcoinspawn");
+                case 16 -> p.performCommand("mm clearcoinspawns");
                 case 28 -> { openGui(p, "settings"); return; }
-                case 30 -> p.performCommand("bmm reload");
+                case 30 -> p.performCommand("mm reload");
                 case 40 -> { openGui(p, "main"); return; }
                 default -> { return; }
             }
