@@ -397,7 +397,7 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
         broadcast(message);
         for (UUID id : new HashSet<>(backups.keySet())) {
             Player p = Bukkit.getPlayer(id);
-            if (p != null) restorePlayer(p);
+            if (p != null && !p.isDead()) restorePlayer(p);
         }
         participants.clear(); alive.clear(); roles.clear(); coins.clear();
     }
@@ -463,6 +463,16 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
     public void onJoin(PlayerJoinEvent event) {
         if (running && participants.contains(event.getPlayer().getUniqueId()) && !alive.contains(event.getPlayer().getUniqueId())) {
             event.getPlayer().setGameMode(GameMode.SPECTATOR);
+        }
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        UUID id = event.getPlayer().getUniqueId();
+        if (backups.containsKey(id)) {
+            Bukkit.getScheduler().runTaskLater(this, () -> restorePlayer(event.getPlayer()), 1L);
+        } else if (running && participants.contains(id) && !alive.contains(id)) {
+            Bukkit.getScheduler().runTaskLater(this, () -> event.getPlayer().setGameMode(GameMode.SPECTATOR), 1L);
         }
     }
 
