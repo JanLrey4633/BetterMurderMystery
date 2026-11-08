@@ -9,6 +9,7 @@ import org.bukkit.event.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -102,6 +103,7 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
             return true;
         }
         switch (args[0].toLowerCase(Locale.ROOT)) {
+            case "gui" -> { if (sender instanceof Player p) openGui(p, "main"); else sender.sendMessage("Nur ingame."); }
             case "join" -> {
                 if (!isPlayer(sender)) return true;
                 Player p = (Player) sender;
@@ -479,10 +481,93 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> options = args.length == 1
-                ? List.of("join", "leave", "info", "start", "stop", "setlobby", "setspawn", "setcoinspawn", "clearcoinspawns", "setminplayers", "reload")
+                ? List.of("join", "leave", "info", "gui", "start", "stop", "setlobby", "setspawn", "setcoinspawn", "clearcoinspawns", "setminplayers", "reload")
                 : Collections.emptyList();
         if (args.length == 1) return options.stream().filter(s -> s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
         return Collections.emptyList();
+    }
+
+
+    private void openGui(Player p, String page) {
+        int size = page.equals("admin") ? 45 : page.equals("settings") ? 27 : 27;
+        Inventory inv = Bukkit.createInventory(new GuiHolder(page), size, Component.text("BMM » " + page));
+        if (page.equals("main")) {
+            inv.setItem(10, gui(Material.LIME_DYE, "&aBeitreten"));
+            inv.setItem(12, gui(Material.RED_DYE, "&cVerlassen"));
+            inv.setItem(14, gui(Material.BOOK, "&eSpielinfo", "&7Warteschlange: " + queue.size(), "&7Min.: " + minPlayers()));
+            if (p.hasPermission("bettermurdermystery.admin")) inv.setItem(16, gui(Material.COMPARATOR, "&6Admin-Menü"));
+        } else if (page.equals("admin")) {
+            inv.setItem(10, gui(Material.LIME_CONCRETE, "&aRunde starten"));
+            inv.setItem(11, gui(Material.RED_CONCRETE, "&cRunde stoppen"));
+            inv.setItem(13, gui(Material.BEACON, "&bLobby-Spawn setzen"));
+            inv.setItem(14, gui(Material.IRON_SWORD, "&eArena-Spawn hinzufügen", "&7Gesetzt: " + arenaSpawns.size()));
+            inv.setItem(15, gui(Material.GOLD_NUGGET, "&6Coin-Spawn hinzufügen", "&7Gesetzt: " + coinSpawns.size()));
+            inv.setItem(16, gui(Material.BARRIER, "&cCoin-Spawns löschen"));
+            inv.setItem(28, gui(Material.REPEATER, "&dEinstellungen"));
+            inv.setItem(30, gui(Material.WRITABLE_BOOK, "&eConfig neu laden"));
+            inv.setItem(40, gui(Material.ARROW, "&7Zurück"));
+        } else {
+            inv.setItem(10, gui(Material.PLAYER_HEAD, "&eMindestspieler: " + minPlayers(), "&7Links +1 | Rechts -1"));
+            inv.setItem(12, gui(Material.CLOCK, "&eCountdown: " + getConfig().getInt("countdown-seconds", 10), "&7Links +5 | Rechts -5"));
+            inv.setItem(14, gui(Material.GOLD_INGOT, "&6Coin-Intervall: " + getConfig().getInt("coin-spawn-interval-seconds", 8), "&7Links +2 | Rechts -2"));
+            inv.setItem(16, gui(Material.CHEST, "&bMax. Coins: " + getConfig().getInt("max-coins-on-ground", 12), "&7Links +2 | Rechts -2"));
+            inv.setItem(22, gui(Material.ARROW, "&7Zurück"));
+        }
+        p.openInventory(inv);
+    }
+
+    private ItemStack gui(Material type, String title, String... lore) {
+        ItemStack item = new ItemStack(type);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(color(title));
+        meta.setLore(Arrays.stream(lore).map(this::color).toList());
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    @EventHandler
+    public void onGuiClick(InventoryClickEvent e) {
+        if (!(e.getWhoClicked() instanceof Player p) || !(e.getView().getTopInventory().getHolder() instanceof GuiHolder holder)) return;
+        e.setCancelled(true);
+        if (e.getClickedInventory() != e.getView().getTopInventory()) return;
+        int slot = e.getRawSlot();
+        if (holder.page.equals("main")) {
+            if (slot == 10) p.performCommand("bmm join");
+            if (slot == 12) p.performCommand("bmm leave");
+            if (slot == 14) p.performCommand("bmm info");
+            if (slot == 16 && p.hasPermission("bettermurdermystery.admin")) openGui(p, "admin");
+        } else if (holder.page.equals("admin")) {
+            if (!p.hasPermission("bettermurdermystery.admin")) { p.closeInventory(); return; }
+            switch (slot) {
+                case 10 -> p.performCommand("bmm start");
+                case 11 -> p.performCommand("bmm stop");
+                case 13 -> p.performCommand("bmm setlobby");
+                case 14 -> p.performCommand("bmm setspawn");
+                case 15 -> p.performCommand("bmm setcoinspawn");
+                case 16 -> p.performCommand("bmm clearcoinspawns");
+                case 28 -> { openGui(p, "settings"); return; }
+                case 30 -> p.performCommand("bmm reload");
+                case 40 -> { openGui(p, "main"); return; }
+                default -> { return; }
+            }
+            Bukkit.getScheduler().runTask(this, () -> openGui(p, "admin"));
+        } else if (holder.page.equals("settings")) {
+            if (!p.hasPermission("bettermurdermystery.admin")) { p.closeInventory(); return; }
+            if (slot == 22) { openGui(p, "admin"); return; }
+            String path = switch (slot) { case 10 -> "min-players"; case 12 -> "countdown-seconds"; case 14 -> "coin-spawn-interval-seconds"; case 16 -> "max-coins-on-ground"; default -> null; };
+            if (path == null) return;
+            int step = path.equals("min-players") ? 1 : path.equals("max-coins-on-ground") ? 2 : 5;
+            int min = path.equals("min-players") ? 4 : 1;
+            getConfig().set(path, Math.max(min, getConfig().getInt(path) + (e.isRightClick() ? -step : step)));
+            saveConfig();
+            openGui(p, "settings");
+        }
+    }
+
+    private static final class GuiHolder implements InventoryHolder {
+        private final String page;
+        private GuiHolder(String page) { this.page = page; }
+        @Override public Inventory getInventory() { return null; }
     }
 
     private static final class PlayerBackup {
