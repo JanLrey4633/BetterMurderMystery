@@ -47,6 +47,7 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
         loadLocations();
         Objects.requireNonNull(getCommand("mm")).setExecutor(this);
         Objects.requireNonNull(getCommand("mm")).setTabCompleter(this);
+        Objects.requireNonNull(getCommand("adminmmgui")).setExecutor(this);
         getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("BetterMurderMystery wurde aktiviert.");
     }
@@ -101,6 +102,15 @@ public final class BetterMurderMystery extends JavaPlugin implements Listener, C
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("adminmmgui")) {
+            if (!isAdmin(sender)) return true;
+            if (!(sender instanceof Player player)) {
+                sender.sendMessage("Dieser Befehl kann nur ingame ausgefuehrt werden.");
+                return true;
+            }
+            openGui(player, "admin");
+            return true;
+        }
         if (args.length == 0) {
             msg(sender, "&eBefehle: &f/mm join, leave, info");
             if (isAdmin(sender)) msg(sender, "&6Admin: &fstart, stop, setlobby, setspawn, setcoinspawn, clearcoinspawns, setminplayers, reload");
