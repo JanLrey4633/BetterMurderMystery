@@ -1,0 +1,13 @@
+# BetterMurderMystery - Grundeinstellungen
+min-players: 4
+countdown-seconds: 10
+coin-spawn-interval-seconds: 8
+max-coins-on-ground: 12
+coin-spawn-points: []
+arena-spawns: []
+lobby: null
+
+messages:
+  prefix: "&8[&6BetterMurderMystery&8] "
+  no-permission: "&cDazu hast du keine Berechtigung."
+  not-enough-players: "&cEs werden mindestens %min% Spieler benoetigt."
