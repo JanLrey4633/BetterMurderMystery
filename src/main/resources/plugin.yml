@@ -9,6 +9,10 @@ commands:
     aliases: [bmm]
     description: BetterMurderMystery Verwaltung und Spielbefehle
     usage: /mm <gui|join|leave|start|stop|setlobby|setspawn|setcoinspawn|clearcoinspawns|setminplayers|reload|info>
+  adminmmgui:
+    description: Oeffnet das BetterMurderMystery-Adminmenue
+    permission: bettermurdermystery.admin
+    usage: /adminmmgui
 permissions:
   bettermurdermystery.admin:
     description: Erlaubt die Administration von BetterMurderMystery
