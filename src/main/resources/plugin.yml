@@ -1,0 +1,17 @@
+name: BetterMurderMystery
+version: 1.0.0
+main: de.bmm.bettermurdermystery.BetterMurderMystery
+api-version: '1.21'
+author: JanLrey4633
+description: Einfaches Murder-Mystery-Minispiel fuer Paper
+commands:
+  bmm:
+    description: BetterMurderMystery Verwaltung und Spielbefehle
+    usage: /bmm <join|leave|start|stop|setlobby|setspawn|setcoinspawn|clearcoinspawns|setminplayers|reload|info>
+permissions:
+  bettermurdermystery.admin:
+    description: Erlaubt die Administration von BetterMurderMystery
+    default: op
+  bettermurdermystery.play:
+    description: Erlaubt die Teilnahme an Murder-Mystery-Runden
+    default: true
